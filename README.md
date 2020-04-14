@@ -15,3 +15,13 @@
 This project contains two major documentation files: 
  - [First time users - getting started](README_proof_of_concept.md)
  - [How to use for future projects](README_how_to_use.md)
+
+
+
+
+For now all test classes and login classes are dependant on the RenameMe entities
+Change database name in Resource Classes (line 19)
+Change database name in travis.yml file (line 43)
+Change database name in FacadeTest Classes (line 32)
+
+For more info: https://github.com/dat3startcode/rest-jpa-devops-startcode/blob/master/README_proof_of_concept.md
