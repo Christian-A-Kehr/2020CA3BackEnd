@@ -12,6 +12,20 @@
 *In order to use this code, you should have a local developer setup + a "matching" droplet on Digital Ocean as described in the 3. semester guidelines* 
 # Getting Started
 
-This project contains two major documentation files: 
- - [First time users - getting started](README_proof_of_concept.md)
- - [How to use for future projects](README_how_to_use.md)
+How to use:
+
+For now all test classes and login classes are dependant on the RenameMe entities
+
+Change target server in 'Project Files/pom.xml' (line 18) Remember to use https
+Change database name in 'Source Packages/rest/Resource Classes' (line 19)
+Change database name in the 'travis.yml' file (line 43)
+Change database name in 'Test Packages/facades/FacadeTest Classes (line 32)'
+Change database name in 'Other Sources/src/main/resources/<default package>/config.properties' (line 17 + line 21)
+
+To populate droplet database with dummy users, tempoarily change the data in 'Other Sources/src/main/resources/<default package>/config.properties'
+to point at the droplet (line 11-14) then change back to localhost.
+
+Remove 'Source Packages/security/SharedSecret.java' when finished with project (line 23)
+Remove 'Source Packages/utils/setupTestUsers.java' using gitignore when pushing a proper project
+
+For more info: https://github.com/dat3startcode/rest-jpa-devops-startcode/blob/master/README_proof_of_concept.md
