@@ -12,12 +12,7 @@
 *In order to use this code, you should have a local developer setup + a "matching" droplet on Digital Ocean as described in the 3. semester guidelines* 
 # Getting Started
 
-This project contains two major documentation files: 
- - [First time users - getting started](README_proof_of_concept.md)
- - [How to use for future projects](README_how_to_use.md)
-
-
-
+How to use:
 
 For now all test classes and login classes are dependant on the RenameMe entities
 Change database name in Resource Classes (line 19)
