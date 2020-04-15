@@ -24,4 +24,6 @@ Change database name in Resource Classes (line 19)
 Change database name in travis.yml file (line 43)
 Change database name in FacadeTest Classes (line 32)
 
+Remove SharedSecret.java when finished with project (line 23)
+
 For more info: https://github.com/dat3startcode/rest-jpa-devops-startcode/blob/master/README_proof_of_concept.md
