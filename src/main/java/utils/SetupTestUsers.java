@@ -1,5 +1,4 @@
 package utils;
-// from F:\NetBeansProjekts\Flow3\Uge2\Flow3Uge2\2 tirsdag\Security\rest-jpa-devops-startcode\src\main\java\utils
 
 import entities.Role;
 import entities.User;
