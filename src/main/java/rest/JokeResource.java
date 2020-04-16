@@ -18,7 +18,7 @@ import utils.HttpUtils;
 /**
  * REST Web Service
  *
- * @author lam
+ * @author Christian
  */
 @Path("jokes")
 public class JokeResource {
