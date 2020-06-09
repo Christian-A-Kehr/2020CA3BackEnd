@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 //Todo Remove or change relevant parts before ACTUAL use
 @Path("xxx")
-public class RenameMeResource
+public class RenameMeResource_deprecated
 {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(
