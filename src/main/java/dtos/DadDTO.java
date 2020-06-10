@@ -14,7 +14,7 @@ public class DadDTO {
 
     public DadDTO(String joke, String id) {
         this.joke = joke;
-        this.id = id;
+        this.id = "https://icanhazdadjoke.com/j/" + id;
     }
 
     public String getJoke() {
