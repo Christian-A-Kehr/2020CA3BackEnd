@@ -4,13 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import dtos.ChuckDTO;
+import dtos.CombinedJokeDTO;
 import dtos.DadDTO;
-import dtos.OurDTO;
+import dtos.OurDTO_deprecated;
 import facades.FacadeExample;
 import java.io.IOException;
 import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -19,6 +24,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import utils.EMF_Creator;
 import utils.HttpUtils_deprecated;
@@ -46,18 +52,17 @@ public class JokeResource
     private static final FacadeExample FACADE = FacadeExample.getFacadeExample(EMF);
     private static final RequestSender requestSender = RequestSender.getRequestSender();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    
+
     // URLs
     private static final String dadURL = "https://icanhazdadjoke.com";
     private static final String chuckURL = "https://api.chucknorris.io/jokes/random";
-    
 
     private ChuckDTO scrapeChuckJoke(String url)
             throws SocketTimeoutException, ProtocolException, IOException
     {
         Gson gson = new Gson();
         HashMap headers = new HashMap();
-        headers.put("Accept", "application/json;charset=UTF-8");
+        headers.put("Accept", "application/json");
         headers.put("User-Agent", "server");
         String result = requestSender.sendRequest(url, "GET", headers, 5000);
 
@@ -76,7 +81,7 @@ public class JokeResource
     {
         Gson gson = new Gson();
         HashMap headers = new HashMap();
-        headers.put("Accept", "application/json;charset=UTF-8");
+        headers.put("Accept", "application/json");
         headers.put("User-Agent", "server");
         String result = requestSender.sendRequest(url, "GET", headers, 5000);
 
@@ -90,12 +95,35 @@ public class JokeResource
     @GET
     @Path("/{chuck}/{dad}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getJokes()
+    public String getJokes(@PathParam("chuck") int chuck, @PathParam("dad") int dad)
     {
         Gson gson = new Gson();
+        List<ChuckDTO> chuckList = new ArrayList<>();
+        List<DadDTO> dadList = new ArrayList<>();
 
-        CombinedDTO combDTO = new CombinedDTO();
-        
+        try
+        {
+            for (int i = 0; i < chuck; i++)
+            {
+                chuckList.add(scrapeChuckJoke(chuckURL));
+            }
+
+            for (int i = 0; i < dad; i++)
+            {
+                dadList.add(scrapeDadJoke(dadURL));
+            }
+        }
+        catch (ProtocolException ex)
+        {
+            Logger.getLogger(JokeResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(JokeResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        CombinedJokeDTO combDTO = new CombinedJokeDTO(chuckList, dadList);
+
         String combJSON = gson.toJson(combDTO);
         return combJSON;
     }
@@ -120,12 +148,11 @@ public class JokeResource
 //        String dad = HttpUtils_deprecated.fetchData("https://icanhazdadjoke.com");
 //        DadDTO dadDTO = gson.fromJson(dad, DadDTO.class);
 //
-//        OurDTO combinedDTO = new OurDTO(chuckDTO1, chuckDTO2, chuckDTO3, chuckDTO4, dadDTO);
+//        OurDTO_deprecated combinedDTO = new OurDTO_deprecated(chuckDTO1, chuckDTO2, chuckDTO3, chuckDTO4, dadDTO);
 //
 //        //This is what your endpoint should return
 //        String combinedJSON = gson.toJson(combinedDTO);
 //
 //        return combinedJSON;
 //    }
-
 }
