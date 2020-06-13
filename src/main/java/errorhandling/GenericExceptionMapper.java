@@ -15,7 +15,7 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
 
-    static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    static Gson gson = new GsonBuilder().create();
     @Context
     ServletContext context;
 
