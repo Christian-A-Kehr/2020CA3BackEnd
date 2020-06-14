@@ -20,13 +20,13 @@ import java.util.Map;
  *
  * @author Brandstrup
  */
-public class RequestSender
+public class WebScraper
 {
 
-    private static RequestSender instance;
+    private static WebScraper instance;
 
     //Private Constructor to ensure Singleton
-    private RequestSender()
+    private WebScraper()
     {
     }
 
@@ -34,11 +34,11 @@ public class RequestSender
      *
      * @return an instance of this facade class.
      */
-    public static RequestSender getRequestSender()
+    public static WebScraper getWebScraper()
     {
         if (instance == null)
         {
-            instance = new RequestSender();
+            instance = new WebScraper();
         }
         return instance;
     }
