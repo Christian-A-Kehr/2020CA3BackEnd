@@ -1,6 +1,8 @@
 package entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +33,8 @@ public class Joke implements Serializable
     @Column(name = "joke_body")
     private String jokeBody;
 
-    //Todo: persistDate
+    @Column(name = "persist_date")
+    private LocalDate persistDate;
     
     public Joke()
     {
@@ -41,6 +44,7 @@ public class Joke implements Serializable
     {
         this.url = url;
         this.jokeBody = jokeBody;
+        this.persistDate = LocalDate.now(ZoneId.of("UTC"));
     }
 
     public Long getId()
