@@ -1,13 +1,11 @@
 package rest;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import dtos.ChuckDTO;
 import dtos.CombinedJokeDTO;
 import dtos.DadDTO;
-import dtos.OurDTO_deprecated;
-import facades.FacadeExample;
+import facades.JokeFacade;
 import java.io.IOException;
 import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
@@ -22,13 +20,13 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import utils.EMF_Creator;
-import utils.HttpUtils_deprecated;
-import utils.RequestSender;
+import utils.WebScraper;
 
 /**
  * REST Web Service
@@ -44,14 +42,13 @@ public class JokeResource
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(
             "pu",
-            "jdbc:mysql://localhost:3307/2020S3P_test",
+            "jdbc:mysql://localhost:3307/2020CA3_test",
             "dev",
             "ax2",
             EMF_Creator.Strategy.CREATE);
 
-    private static final FacadeExample FACADE = FacadeExample.getFacadeExample(EMF);
-    private static final RequestSender requestSender = RequestSender.getRequestSender();
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final JokeFacade FACADE = JokeFacade.getJokeFacade(EMF);
+    private static final WebScraper WEBSCRAPER = WebScraper.getWebScraper();
 
     // URLs
     private static final String dadURL = "https://icanhazdadjoke.com";
@@ -64,7 +61,7 @@ public class JokeResource
         HashMap headers = new HashMap();
         headers.put("Accept", "application/json");
         headers.put("User-Agent", "server");
-        String result = requestSender.sendRequest(url, "GET", headers, 5000);
+        String result = WEBSCRAPER.sendRequest(url, "GET", headers, 5000);
 
         // Jeg mener at TypeToken er den, der holder styr på hvilke JSON attributter
         // der bliver smidt med og får dem placeret korrekt i den resulterende DTO
@@ -83,7 +80,7 @@ public class JokeResource
         HashMap headers = new HashMap();
         headers.put("Accept", "application/json");
         headers.put("User-Agent", "server");
-        String result = requestSender.sendRequest(url, "GET", headers, 5000);
+        String result = WEBSCRAPER.sendRequest(url, "GET", headers, 5000);
 
         DadDTO dadDTO = gson.fromJson(result, new TypeToken<DadDTO>()
         {
@@ -105,12 +102,24 @@ public class JokeResource
         {
             for (int i = 0; i < chuck; i++)
             {
-                chuckList.add(scrapeChuckJoke(chuckURL));
+                ChuckDTO dto = scrapeChuckJoke(chuckURL);
+                if (dto == null || dto.getUrl().isEmpty())
+                {
+                    throw new IllegalArgumentException();
+                }
+                chuckList.add(dto);
+                FACADE.persistChuckJoke(dto);
             }
 
             for (int i = 0; i < dad; i++)
             {
-                dadList.add(scrapeDadJoke(dadURL));
+                DadDTO dto = scrapeDadJoke(dadURL);
+                if (dto == null || dto.getId().isEmpty())
+                {
+                    throw new IllegalArgumentException();
+                }
+                dadList.add(dto);
+                FACADE.persistDadJoke(dto);
             }
         }
         catch (ProtocolException ex)
