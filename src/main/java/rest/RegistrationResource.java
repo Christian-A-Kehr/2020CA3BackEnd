@@ -7,6 +7,8 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import dtos.UserDTO;
 import entities.User;
 import errorhandling.AlreadyExistsException;
@@ -69,22 +71,12 @@ public class RegistrationResource
     @Path("/user")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public String createUser(String responseBody){
-        UserDTO userDTO = GSON.fromJson(responseBody, UserDTO.class);
+    public String createUser(String requestBody){
+//        JsonObject json = new JsonParser().parse(requestBody).getAsJsonObject();
+        UserDTO userDTO = GSON.fromJson(requestBody, UserDTO.class);
+       
         try {
             return GSON.toJson(FACADE.createNormalUser(userDTO.getUsername(), userDTO.getPassword(), "user"));
-        } catch (AlreadyExistsException ex) {
-            throw new WebApplicationException(ex.getMessage(), 400);
-        }
-    }
-
-    @POST
-    @Path("/admin/{username}/{password}/{role}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("admin")
-    public String createAdmin(@PathParam("username") String username, @PathParam("password") String password, @PathParam("role") String role) {
-        try {
-            return GSON.toJson(FACADE.adminCreateUser(username, password, role));
         } catch (AlreadyExistsException ex) {
             throw new WebApplicationException(ex.getMessage(), 400);
         }
