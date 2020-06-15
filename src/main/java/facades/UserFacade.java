@@ -80,29 +80,7 @@ public class UserFacade
         return userRegister;
     }
 
-    public User adminCreateUser(String username, String password, String role) throws AlreadyExistsException
-    {
-        EntityManager em = emf.createEntityManager();
-        User userregister = new User(username, password);
-        Role userRole = new Role(role);
-        userregister.addRole(userRole);
-        try
-        {
-            User user = em.find(User.class, username);
-            if (user != null)
-            {
-                throw new AlreadyExistsException("User name already exists");
-            }
-            em.getTransaction().begin();
-            em.persist(userregister);
-            em.getTransaction().commit();
-        } finally
-        {
-            em.close();
-        }
-        return userregister;
-    }
-
+   
     public long getUserCount()
     {
         EntityManager em = emf.createEntityManager();
