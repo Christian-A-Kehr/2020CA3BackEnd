@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -29,13 +30,13 @@ public class Joke implements Serializable
 
     @Column(name = "url")
     private String url;
-    
+
     @Column(name = "joke_body")
     private String jokeBody;
 
     @Column(name = "persist_date")
     private LocalDate persistDate;
-    
+
     public Joke()
     {
     }
@@ -75,6 +76,16 @@ public class Joke implements Serializable
     public void setJokeBody(String jokeBody)
     {
         this.jokeBody = jokeBody;
+    }
+
+    public LocalDate getPersistDate()
+    {
+        return persistDate;
+    }
+
+    public void setPersistDate(LocalDate persistDate)
+    {
+        this.persistDate = persistDate;
     }
 
     @Override
