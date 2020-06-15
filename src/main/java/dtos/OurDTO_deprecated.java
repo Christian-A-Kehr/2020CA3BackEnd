@@ -9,19 +9,19 @@ package dtos;
  *
  * @author Christian
  */
-public class OurDTO {
+public class OurDTO_deprecated {
 
     private String firstApi, firstRef, secondApi, secondRef, thirdApi, thirdRef,
             fourthApi, fourthRef, fifthApi, fifthRef;
 
-    public OurDTO(ChuckDTO cDTO, DadDTO dDTO) {
+    public OurDTO_deprecated(ChuckDTO cDTO, DadDTO dDTO) {
         this.firstApi = cDTO.getValue();
         this.firstRef = cDTO.getUrl();
         this.secondApi = dDTO.getJoke();
         this.secondRef = "https://icanhazdadjoke.com/";
     }
 
-    public OurDTO(ChuckDTO cDTO1, ChuckDTO cDTO2, ChuckDTO cDTO3, ChuckDTO cDTO4, DadDTO dDTO) {
+    public OurDTO_deprecated(ChuckDTO cDTO1, ChuckDTO cDTO2, ChuckDTO cDTO3, ChuckDTO cDTO4, DadDTO dDTO) {
         this.firstApi = cDTO1.getValue();
         this.firstRef = cDTO1.getUrl();
         this.secondApi = cDTO2.getValue();

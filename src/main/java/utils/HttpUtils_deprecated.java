@@ -6,7 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class HttpUtils {
+public class HttpUtils_deprecated {
 
     public static String fetchData(String _url) throws MalformedURLException, IOException {
         URL url = new URL(_url);
